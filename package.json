@@ -1,0 +1,30 @@
+{
+  "name": "k-back",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luan-vieira-er/knucklebones-back.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/luan-vieira-er/knucklebones-back/issues"
+  },
+  "homepage": "https://github.com/luan-vieira-er/knucklebones-back#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "jsonwebtoken": "^8.5.1",
+    "jwt-decode": "^3.1.2",
+    "pg": "^8.8.0",
+    "sequelize": "^6.21.4"
+  }
+}

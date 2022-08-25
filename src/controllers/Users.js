@@ -258,7 +258,7 @@ async function login(req, res){
     if(body.senha.trim().length <= 0) return res.status(400).send('Senha não informada.')
     
     let User = await ModelUsers.findOne({
-      attributes: ['id','login','email'],
+      attributes: ['id','login','email','status'],
       where:{
         login: body.login.trim()
       }
@@ -276,7 +276,7 @@ async function login(req, res){
       }
     })
     
-    if(!bcrypt.compareSync(body.senha, UserSenha.senha)) return res.status(400).send('Usuário/Senha incorreto.')
+    if(!bcrypt.compareSync(body.senha, UserSenha.dataValues.senha)) return res.status(400).send('Usuário/Senha incorreto.')
 
     let key = util.genKey(16)          
     let token = util.getToken(User.id, key)    

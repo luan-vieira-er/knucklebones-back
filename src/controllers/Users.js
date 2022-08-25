@@ -267,6 +267,7 @@ async function login(req, res){
     if(!User) return res.status(400).send('Usuário não localizado.')
 
     if(User.status == 'I') return res.status(400).send('Usuário está inativo.')
+    if(User.status == 'P') return res.status(400).send('Usuário está com cadastro pendente.')
 
     let UserSenha = await ModelUsers.findOne({
       attributes: ['senha'],

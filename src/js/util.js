@@ -4,6 +4,23 @@ const jwt_decode = require("jwt-decode")
 require('dotenv/config');
 const ModelUsers = require("../models/Users")
 
+newMatchToken = () => {
+  var TokenGenerator = require( 'token-generator' )({
+    salt: 'knuckle',
+    timestampMap: 'abcdefghij', // 10 chars array for obfuscation proposes
+  });
+  var token = TokenGenerator.generate();
+  return token
+}
+
+validateMatchToken = (token) => {
+  var TokenGenerator = require( 'token-generator' )({
+    salt: 'knuckle',
+    timestampMap: 'abcdefghij', // 10 chars array for obfuscation proposes
+  });
+  return TokenGenerator.isValid(token)
+}
+
 getToken = (id, key) => {
   let token = jwt.sign({ 'id': id, keyCache: key }, process.env.SECRET, {
     expiresIn: '600s' // 600 segundos = 10 minutos
@@ -89,5 +106,5 @@ getDadosToken = (req, res) => {
 }
 
 module.exports = {
-    validatedRoute, getToken, refreshToken, getDadosToken, genKey, getInvalidToken, getOtherToken,
+    validatedRoute, getToken, refreshToken, getDadosToken, genKey, getInvalidToken, getOtherToken, newMatchToken, validateMatchToken
   }

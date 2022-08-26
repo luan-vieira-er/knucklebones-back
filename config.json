@@ -1,7 +1,7 @@
 {
     "port": "5432",
-    "user": "artnfuwdxgfcvp",
-    "host": "ec2-3-208-79-113.compute-1.amazonaws.com",
-    "database": "d3a4cav0u08dl0",
-    "password": "b95e8d4de80f947c40162163e5b53866ded05218b602a1f31b58a2f1faf4c151"
+    "user": "postgres",
+    "host": "p.3vndslsfovdrpbejelzsldaddi.db.postgresbridge.com",
+    "database": "postgres",
+    "password": "thXeJTqmPT9vFPGkL5vbfnm0YRjtXOFEs0fd9qNmWk9mqVrjXFCmSNUIBm9eJDzm"
 }

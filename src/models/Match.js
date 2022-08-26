@@ -32,6 +32,9 @@ const Match = sequelize.define('match', {
                 key: 'id'
             },
     },
+    player_turno:{
+        type: Sequelize.INTEGER,
+    },
     player_vencedor: {
         type: Sequelize.INTEGER,
             references: {

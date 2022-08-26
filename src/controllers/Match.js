@@ -159,79 +159,77 @@ async function readOneMatch (req,res) {
   res.send(ResponseObject)
 }
 
-// async function updateUser (req,res) {
-//   let body = req.body
+async function connectMatch (req,res) {
+  let body = req.body
 
   
-//   if(!body.id){
-//     res.status(400).send('Usuário não informado')
-//     return
-//   }
+  if(!body.token){
+    res.status(400).send('Token não informado')
+    return
+  }
+
+  if(!body.player){
+    res.status(400).send('Player não informado')
+    return
+  }
     
-//   let User = await ModelUsers.findOne({
-//     where: {
-//       id: body.id
-//     }
-//   })
+  let Match = await ModelMatch.findOne({
+    where: {
+      token: body.token
+    }
+  })
 
-//   if(!User){
-//     res.status(400).send('Usuário não encontrado')
-//     return
-//   }
+  if(!Match){
+    res.status(400).send('Partida não encontrada')
+    return
+  }
   
-//   const t = await sequelize.transaction({})
-//   try{
-//     Usuario.login = body.login.trim()
+  const t = await sequelize.transaction({})
+  try{
+    Match.player2 = body.player
+    Match.status = 1
 
-//     await Usuario.save({transaction:t})
-//     await t.commit()
-//     res.send('Dados atualizados')
-//   }catch(err){
-//     console.log(err)
-//     await t.rollback()
-//     res.status(400).send('Erro ao atualizar perfil do usuário')
-//   }
-//   return
+    let player_turno = Math.random() * (2 - 1) + 1;
+    if (player_turno == 1) {
+      Match.player_turno = Match.player1
+    } else {
+      Match.player_turno = Match.player2
+    }
 
-// }
+    await Match.save({transaction:t})
 
-// async function deleteUser (req,res) {
+    let Event = await ModelMatchEvents.create({
+      match_id: Match.id,
+      player: Match.player2,
+      description: 'Jogador conectado'
+    }, {transaction:t})  
 
-//   let body = req.body
+    let Board = await ModelBoard.findOne({
+      where: {
+        match_id: Match.id
+      }
+    }, {transaction:t})  
 
-//   if(!body.id){
-//     res.status(400).send('Usuário não informado')
-//     return
-//   }
+    Board.player2 = Match.player2
 
-//   const t = await sequelize.transaction({})
+    await Board.save({transaction:t})
 
-//   try {
-//     let User = await ModelUsers.findOne({
-//       where: {
-//         id: body.id
-//       }
-//     }, { transaction: t} )
-  
-//     if(!User){
-//       res.status(400).send('Usuário não encontrado')
-//       return
-//     }
-  
-//     await User.destroy({ transaction: t})
-//     await t.commit()
-//     res.status(200).send('Usuário deletado com sucesso')
-//   } catch (error) {
-//     await t.rollback()
-//     res.status(400).send('Erro ao deletar usuário')
-//   }
+    await t.commit()
+    res.send('Jogador conectado com sucesso')
+  }catch(err){
+    console.log(err)
+    await t.rollback()
+    res.status(400).send('Erro ao conectar')
+  }
+  return
 
-// }
+}
+
 
 module.exports = { 
     createMatch,   //C
     readMatches,    //R
     readOneMatch,  //R
-    // updateUser,   //U
+    connectMatch
     // deleteUser,   //D
 }
